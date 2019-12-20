@@ -20,7 +20,8 @@ import {
     BrowserRouter as Router,
     Link,
     Switch,
-    Route
+    Route,
+    Redirect
   } from "react-router-dom";
 import routes from './routes/routes.js';
 import { Typography } from '@material-ui/core';
@@ -91,6 +92,12 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
+  footer: {
+    position: 'fixed',
+    bottom: 10,
+    width: 'inherit',
+    textAlign: 'center'
+  }
 }));
 
 export default function MiniDrawer() {
@@ -129,7 +136,7 @@ export default function MiniDrawer() {
               <MenuIcon />
             </IconButton>
               <img src={logo} alt="SITE Technologies, LLC" className={clsx(classes.appLogo)}/>
-              <Typography variant="h6" style={{marginLeft: 20}}> Weather Lookup</Typography>
+              <Typography variant="h6" style={{marginLeft: 20}}>{process.env.REACT_APP_TITLE}</Typography>
           </Toolbar>
         </AppBar>
         <Drawer
@@ -161,18 +168,18 @@ export default function MiniDrawer() {
                 </Link>    
               ))}
           </List>
+          <Typography variant="subtitle2" className={classes.footer}>v{process.env.REACT_APP_VERSION}</Typography>
         </Drawer>
         <main className={classes.content}>
           <div className={classes.toolbar} />
-              {/* A <Switch> looks through its children <Route>s and
-                  renders the first one that matches the current URL. */}
-              <Switch>
-                {routes.map((route, index) => (
-                  <Route path={route.path} key={index}>
-                      <route.component />
-                  </Route>
-                ))}
-              </Switch>
+          {/* A <Switch> looks through its children <Route>s and
+              renders the first one that matches the current URL. */}
+          <Switch>
+            {routes.map((route, index) => (
+              <Route exact path={route.path} key={index} component={route.component}/>
+            ))}
+            <Route path="*" render={() => <Redirect to={routes[0].path} />}/>
+          </Switch>
         </main>
       </Router>
     </div>

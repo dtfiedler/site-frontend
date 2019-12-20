@@ -1,16 +1,15 @@
 import axois from 'axios';
-
 /**
  * The host of the darksy endpoint service.
  * @type {string}
  */
-const DARKSKY_HOST = process.env.DARKSKY_HOST;
+const DARKSKY_HOST = process.env.REACT_APP_DARKSKY_HOST;
 
 /**
  * Secret key for dark sky.
  * @type {string}
  */
-const DARKSKY_SECRET = process.env.DARKSKY_SECRET;
+const DARKSKY_SECRET = process.env.REACT_APP_DARKSKY_SECRET;
 
 /**
  * Service to retrieve weather information from Dark Sky.
