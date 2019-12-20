@@ -135,7 +135,7 @@ export default function MiniDrawer() {
             >
               <MenuIcon />
             </IconButton>
-              <img src={logo} alt="SITE Technologies, LLC" className={clsx(classes.appLogo)}/>
+              <img src={logo} alt="SITE" className={clsx(classes.appLogo)}/>
               <Typography variant="h6" style={{marginLeft: 20}}>{process.env.REACT_APP_TITLE}</Typography>
           </Toolbar>
         </AppBar>

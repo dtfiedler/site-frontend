@@ -1,11 +1,14 @@
 import React from 'react';
+import { Page, WeatherSearch } from '../../components';
 
 export default class Search extends React.Component {
     render() {
-        return (
-          <div>
-            <p>Search page</p>
-          </div>
-        )
-      }
+      return (
+        <Page title="Search"
+         content={
+          <WeatherSearch/>
+         }>
+        </Page>
+      )
+    }
 }

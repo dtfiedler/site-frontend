@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "SITE Weather Tool",
+  "name": "Weather tool for SITE Technologies",
   "icons": [
     {
       "src": "favicon.ico",
