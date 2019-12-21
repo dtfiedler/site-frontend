@@ -1,13 +1,14 @@
 
 import React, { Component }  from 'react';
 import { Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 
 
 /**
  * Generic page container that contains slots for children
  * elemnents.
  */
-export default class Page extends Component {
+class Page extends Component {
 
     constructor(props){
         super(props)
@@ -18,10 +19,12 @@ export default class Page extends Component {
     }
 
     render() {
+        const {classes} =  this.props;
         return (
             <div className="page">
-                <div className="header">
-                    <Typography variant="h5">{this.props.title}</Typography>
+                <div className={classes.header}>
+                    <Typography variant="h5" className={classes.title}>{this.props.title}</Typography>
+                    <div className={classes.action}>{this.props.action}</div>
                 </div>
                 <div className="main">{this.props.content}</div>
                 <div className="footer">{this.props.footer}</div>
@@ -29,3 +32,22 @@ export default class Page extends Component {
         )
     }
 }
+
+
+const useStyles = theme => ({
+    header: {
+      display: 'flex'
+    },
+    title: {
+        flex: 1,
+        display: 'flex',
+        margin: 'auto'
+    },
+    action: {
+        flex: 1,
+        display: 'flex',
+        justifyContent: 'flex-end'
+    }
+  });
+
+  export default withStyles(useStyles)(Page)
