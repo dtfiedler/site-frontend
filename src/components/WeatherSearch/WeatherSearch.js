@@ -5,6 +5,7 @@ import { Typography } from '@material-ui/core';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 import cities from 'cities';
+import MongoService from '../../services/MongoService';
 
 const moment = extendMoment(Moment);
 /**
@@ -18,6 +19,24 @@ class WeatherSearch extends Component {
 
         this.state = {
             weather: []
+        }
+    }
+
+    componentDidUpdate(prev){
+        const { lat, long, searchDate} = this.props;
+        if(lat !== prev.lat || long !== prev.long || searchDate !== prev.searchDate){
+            this.saveWeatherRequest()
+        }
+    }
+
+    async saveWeatherRequest(){
+        const { searchDate, lat, long } = this.props;
+        const date = moment(searchDate).unix();
+        try {
+            const response = MongoService.saveWeatherRequest(lat, long, date);
+            console.log('sucessfully saved request', response);
+        } catch(e){
+            console.log('Failed to save weather request.', e);
         }
     }
 

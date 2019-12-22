@@ -1,12 +1,12 @@
 import React, { Component }  from 'react';
 import {Typography, Card, CardContent} from '@material-ui/core';
+import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 import { withStyles } from '@material-ui/core/styles';
 import { CircularProgress } from '@material-ui/core';
 import {DarkSkyService} from '../../services';
 import Skycons from 'react-skycons'
 import moment from 'moment';
 import * as _ from 'lodash';
-import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
 /**
  * Component for a simple weather card that displays weather details
  * for a given time unit provided by DarkSky Service
@@ -26,7 +26,7 @@ class WeatherCard extends Component {
     /**
      * Fetches new weather when state changes.
      * 
-     * @param {*} prev 
+     * @param {*} prev - the previos state before update occurs.
      */
     componentDidUpdate(prev){
         const { lat, long } = this.props;
@@ -146,7 +146,7 @@ const useStyles = theme => ({
     card: {
       flex: 1,
       margin: 10,
-      minWidth: 175,
+      minWidth: 150,
     },
     title: {
       fontSize: 14,
