@@ -13,8 +13,6 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.0",
     "cities": "^2.0.0",
-    "find-nearest-cities": "^1.0.0",
-    "geo-nearby": "^2.0.1",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "moment-range": "^4.0.2",

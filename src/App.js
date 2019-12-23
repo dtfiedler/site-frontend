@@ -14,7 +14,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import logo from './logo.png'; // Tell Webpack this JS file uses this image
+import logo from './logo.png';
 
 import {
     BrowserRouter as Router,
@@ -42,7 +42,8 @@ const useStyles = makeStyles(theme => ({
   },
   appLogo: {
     height: 30,
-    pointerEvents: 'none'
+    pointerEvents: 'none',
+    backgroundImage: logo
   },
   appBarShift: {
     marginLeft: drawerWidth,
@@ -61,8 +62,7 @@ const useStyles = makeStyles(theme => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
-    whiteSpace: 'nowrap',
-    zIndex: 100
+    whiteSpace: 'nowrap'
   },
   drawerOpen: {
     width: drawerWidth,
@@ -97,7 +97,7 @@ const useStyles = makeStyles(theme => ({
     position: 'fixed',
     bottom: 10,
     width: 'inherit',
-    textAlign: 'center'
+    textAlign: 'center',
   }
 }));
 
