@@ -39,7 +39,10 @@ class WeatherCard extends Component {
      * Trigger request on component mount.
      */
     componentDidMount(){
-        this.fetchWeatherForLocation()
+        const { lat, long, date} = this.props;
+        if(lat && long && date){
+            this.fetchWeatherForLocation()
+        }
     }
 
     /**
@@ -47,10 +50,11 @@ class WeatherCard extends Component {
      * as necesesary.
      */
     async fetchWeatherForLocation(){
+        const { lat, long, date} = this.props;
         this.setState({isLoading: true})
         try {
             if(this.props.lat && this.props.long){
-                const response = await DarkSkyService.fetchWeatherHistory(this.props.lat, this.props.long, this.props.date.unix());
+                const response = await DarkSkyService.fetchWeatherHistory(lat, long, moment(date).unix())
                 this.setState(({
                     isLoading: false,
                     weather: response,
@@ -70,11 +74,12 @@ class WeatherCard extends Component {
     }
 
     render() {
-        const { classes } = this.props;
+        const { lat, long, date, classes } = this.props;
         let cardContent;
         if(!this.state.error){
             const { data } = this.state.weather?.daily || {};
             const details = data && data.length ? data[0] : {};
+            
             cardContent = Object.entries(details)
                 .filter(([key]) => ['icon', 'summary', 'temperatureMin', 'temperatureMax', 'precipType', 'precipAccumulation', 'humdity'].includes(key))
                 .map(([key, val], index) => {
@@ -90,17 +95,17 @@ class WeatherCard extends Component {
                                     />
                             )
                         case 'summary':
-                                return (
-                                    <div className={classes.summary} key={index}>
-                                        <Typography variant="body2" component="p" key={index} >
-                                            <i>{val}</i>
-                                        </Typography>
-                                    </div>
-                                )
+                            return (
+                                <div className={classes.summary} key={index}>
+                                    <Typography variant="body2" component="p" key={index} >
+                                        <i>{val}</i>
+                                    </Typography>
+                                </div>
+                            )
                         case 'precipType':
                             // Only show if snow
                             if(val !== 'snow') break;
-                        // eslint-disable-next-line no-fallthrough
+                            // eslint-disable-next-line no-fallthrough
                         default: 
                             return (
                                 <div className={classes.details} key={index}>
@@ -126,19 +131,23 @@ class WeatherCard extends Component {
                             </Typography>
                         </div>
         }
-        return (
-            <Card className={classes.card}>
-                <CardContent>
-                    <Typography className={classes.title} color="textSecondary" gutterBottom>
-                        {moment(this.props.date).format('MMMM DD')}
-                    </Typography>
-                    <Typography variant="h5">
-                        {moment(this.props.date).format('dddd')}
-                    </Typography>
-                    { this.state.isLoading ? (<CircularProgress className={classes.img}/>) : (cardContent)}
-                </CardContent>
-            </Card>
-        )
+        if(lat && long && date){
+            return (
+                <Card className={classes.card}>
+                    <CardContent>
+                        <Typography className={classes.title} color="textSecondary" gutterBottom>
+                            {moment(this.props.date).format('MMMM DD')}
+                        </Typography>
+                        <Typography variant="h5">
+                            {moment(this.props.date).format('dddd')}
+                        </Typography>
+                        { this.state.isLoading ? (<CircularProgress className={classes.img}/>) : (cardContent)}
+                    </CardContent>
+                </Card>
+            )
+        }
+        
+        return null;
     }
 }
 
@@ -146,7 +155,7 @@ const useStyles = theme => ({
     card: {
       flex: 1,
       margin: 10,
-      minWidth: 150,
+      minWidth: 175,
     },
     title: {
       fontSize: 14,

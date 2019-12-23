@@ -6,7 +6,6 @@ import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 import cities from 'cities';
 import MongoService from '../../services/MongoService';
-
 const moment = extendMoment(Moment);
 /**
  * Component for a simple weather search tool that displays weather cards
@@ -14,46 +13,38 @@ const moment = extendMoment(Moment);
  */
 class WeatherSearch extends Component {
 
-    constructor(props){
-        super(props)
-
-        this.state = {
-            weather: []
-        }
-    }
-
     componentDidUpdate(prev){
-        const { lat, long, searchDate} = this.props;
-        if(lat !== prev.lat || long !== prev.long || searchDate !== prev.searchDate){
+        const { lat, long, date = null, requestId = null} = this.props;
+        if(!requestId && (lat !== prev.lat || long !== prev.long || date !== prev.date)){
             this.saveWeatherRequest()
         }
     }
 
     async saveWeatherRequest(){
-        const { searchDate, lat, long } = this.props;
-        const date = moment(searchDate).unix();
+        const { date, lat, long } = this.props;
+        const saveDate = moment(date).unix();
         try {
-            const response = MongoService.saveWeatherRequest(lat, long, date);
-            console.log('sucessfully saved request', response);
+            await MongoService.saveWeatherRequest(lat, long, saveDate);
         } catch(e){
-            console.log('Failed to save weather request.', e);
+           console.log(`Failed to save request: ${e}`);
         }
     }
 
     render() {
-        const { searchDate, classes } = this.props;
-        // If no search date is passed, current date will be used
-        const days = Array.from(moment.range(moment(searchDate).subtract(6,"days"), moment(searchDate)).by('day'));
-        const nearbyCity = cities.gps_lookup(this.props.lat, this.props.long);
+        const { date, lat, long, classes } = this.props;
+        const dateUsed = date ? moment.unix(date) : moment();
+        const range = moment.range(moment(dateUsed.toISOString()).subtract(6,'days'), moment(dateUsed.toISOString()));  
+        const days = Array.from(range.by('day'));
+        const nearbyCity = cities.gps_lookup(lat, long);
         return (
             <div>
-                <Typography variant="subtitle1">
-                    {this.props.lat && this.props.long ? `Previous 7 days in ${nearbyCity.city}, ${nearbyCity.state} (${this.props.lat}, ${this.props.long})`: 'Provide coorinates (i.e. latitude, longitude)'}
+                <Typography variant="subtitle2">
+                    {lat && long ? `Previous 7 days in ${nearbyCity.city}, ${nearbyCity.state} (${lat}, ${long}) ending on ${dateUsed.format('MM/DD/YYYY')}`: 'Provide coorinates (i.e. latitude, longitude)'}
                 </Typography>
                 <div className={classes.container}>
                     {
                         days.map((date, index) => {
-                            return <WeatherCard lat={this.props.lat} long={this.props.long} date={date} key={index}/>
+                            return <WeatherCard lat={lat} long={long} date={date} key={index}/>
                         })
                     }
                 </div>

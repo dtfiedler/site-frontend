@@ -31,13 +31,13 @@ export default {
      * 
      * @param {string} lat
      * @param {string} long
-     * @param {string} time - the epoch timestamp to request
+     * @param {string} date - the epoch timestamp to request
      * @returns {Promise} - the promise that resolves returned weather details
      */
-    async fetchWeatherHistory(lat, long, time){
+    async fetchWeatherHistory(lat, long, date){
         const response = await axois({
             method: 'GET',
-            url: `${DARKSKY_HOST}/${DARKSKY_SECRET}/${lat},${long},${time}?exclude=hourly`,
+            url: `${DARKSKY_HOST}/${DARKSKY_SECRET}/${lat},${long},${date}?exclude=hourly`,
         }) 
         return response.data;   
     }
