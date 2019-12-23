@@ -62,6 +62,7 @@ const useStyles = makeStyles(theme => ({
     width: drawerWidth,
     flexShrink: 0,
     whiteSpace: 'nowrap',
+    zIndex: 100
   },
   drawerOpen: {
     width: drawerWidth,
@@ -90,7 +91,7 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
+    padding: theme.spacing(3)
   },
   footer: {
     position: 'fixed',

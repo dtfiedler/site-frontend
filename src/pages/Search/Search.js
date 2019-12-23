@@ -46,16 +46,17 @@ export default class Search extends React.Component {
   }
 
   render() {
+    const { lat, long} = this.state;
     return (
       <Page title="Search"
-        content={<WeatherSearch lat={this.state.lat} long={this.state.long}/>}
+        content={<WeatherSearch lat={lat} long={long}/>}
         action={
         <TextField 
           label="Search" 
           variant="outlined" 
           onChange={this.handleInputChange}
-          onKeyPress={event => event.key === 'Enter' ? this.updateLatLong() : null} 
-          style={{width: '40%', minWidth: 250}} 
+          onKeyPress={event => event.key === 'Enter' ? this.updateLatLong() : {}} 
+          style={{width: '40%', minWidth: 150}} 
           margin="dense" 
           placeholder="Enter lat & long (e.g. 103.45,105.2)"/>
         }
