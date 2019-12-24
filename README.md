@@ -1,3 +1,9 @@
+# Site Weather Tool
+
+Simple tool to review weather details for given coordiantes.
+
+![screenshot](./public/readme.png)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
